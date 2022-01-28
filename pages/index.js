@@ -45,9 +45,8 @@ export default function PaginaInicial() {
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          backgroundColor: appConfig.theme.colors.primary[500],
-          backgroundImage: 'url(https://www.pcclean.io/wp-content/gallery/league-of-legends-hd-wallpapers/559308.jpg)',
-          backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
+          backgroundImage: 'url(https://th.bing.com/th/id/R.f38e413a04321ed0f6b848568ddc2650?rik=FpB5T3Ifu5AluA&pid=ImgRaw&r=0)',
+          backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply'
         }}
       >
         <Box
@@ -63,6 +62,7 @@ export default function PaginaInicial() {
             borderRadius: '5px', padding: '32px', margin: '16px',
             boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
             backgroundColor: appConfig.theme.colors.neutrals[700],
+            opacity: 0.9
           }}
         >
           {/* Formulário */}
@@ -77,12 +77,12 @@ export default function PaginaInicial() {
               width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
             }}
           >
-            <Titulo tag="h2">Boas vindas de volta!</Titulo>
+            <Titulo tag="h2">Welcome to the dark side!</Titulo>
             <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
               {appConfig.name}
             </Text>
 
-            <input 
+            <input style={{width: "100%", height: "35px", marginBottom: "10px"}}
                 type="text"
                 value={username}
                 onChange={function (event) {
@@ -110,9 +110,9 @@ export default function PaginaInicial() {
               fullWidth
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
-                mainColor: appConfig.theme.colors.primary[500],
-                mainColorLight: appConfig.theme.colors.primary[400],
-                mainColorStrong: appConfig.theme.colors.primary[600],
+                mainColor: appConfig.theme.colors.primary[1000],
+                mainColorLight: appConfig.theme.colors.primary[2000],
+                mainColorStrong: appConfig.theme.colors.primary[2000],
               }}
             />
           </Box>
