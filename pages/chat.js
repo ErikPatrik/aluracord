@@ -1,22 +1,66 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
+import { createClient } from '@supabase/supabase-js';
 import React from 'react';
 import appConfig from '../config.json';
+
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzQ3NjQxMSwiZXhwIjoxOTU5MDUyNDExfQ.ty2U31Lc9XzDUtBsrFxmFHJYOVFrm3DaWZRZwJHwH_o'
+const SUPABASE_URL = 'https://tvwdlouxasjlyhhymsvo.supabase.co'
+const supaBaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+//Código sem a lib
+// fetch(`${SUPABASE_URL}/rest/v1/message?select=*`, {
+//     headers: {
+//         'Content-type': 'application/json',
+//         'apikey': SUPABASE_ANON_KEY,
+//         'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+//     }
+// })
+//     .then((res) => {
+//         return res.json()
+//     })
+//     .then((res) => {
+//         console.log(response)
+//     })
 
 export default function ChatPage() {
     // Sua lógica vai aqui
     const [mensagem, setMensagem] = React.useState('')
     const [listaDeMensagens, setListaDeMensagens] = React.useState([])
 
+    // tudo que nao faz parte do fluxograma padrão do React
+    // roda sempre quando a página carrega
+    // mas se o state/lista de mensagens mudarem, eu observo as
+    React.useEffect(() => {
+        // aqui passamos a tabela qual queremos buscar
+        supaBaseClient
+            .from('mensagens')
+            .select('*')
+            .order('id', { ascending: false })
+            .then(({data}) => {
+                setListaDeMensagens(data)
+            })
+    }, [])
+
     function handleNovaMensagem(novaMensagem) {
         const mensagem = { // a mensagem é um objeto
-            id: listaDeMensagens.length + 1,
-            de: 'erikpatrik1',
+            // id: listaDeMensagens.length + 1,
+            de: 'erikpatrik',
             texto: novaMensagem,
         }
-        setListaDeMensagens([
-            mensagem,
-            ...listaDeMensagens,
-        ])
+
+        supaBaseClient
+            .from('mensagens')
+            .insert([
+                mensagem
+            ])
+            .then(({data}) => {
+                console.log('Criando msg', res)
+                setListaDeMensagens([
+                    data[0],
+                    ...listaDeMensagens,
+                ])
+            })
+
         setMensagem('')
     }
 
@@ -167,7 +211,7 @@ function MessageList(props) {
                                 display: 'inline-block',
                                 marginRight: '8px',
                             }}
-                            src={`https://github.com/erikpatrik.png`}
+                            src={`https://github.com/${mensagem.de}.png`}
                         />
                         <Text tag="strong">
                             {mensagem.de}
