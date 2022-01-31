@@ -2,12 +2,14 @@ import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import { createClient } from '@supabase/supabase-js';
 import React from 'react';
 import appConfig from '../config.json';
+import { useRouter } from 'next/router'
+import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzQ3NjQxMSwiZXhwIjoxOTU5MDUyNDExfQ.ty2U31Lc9XzDUtBsrFxmFHJYOVFrm3DaWZRZwJHwH_o'
 const SUPABASE_URL = 'https://tvwdlouxasjlyhhymsvo.supabase.co'
 const supaBaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-//Código sem a lib
+// Código sem a lib
 // fetch(`${SUPABASE_URL}/rest/v1/message?select=*`, {
 //     headers: {
 //         'Content-type': 'application/json',
@@ -22,8 +24,18 @@ const supaBaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 //         console.log(response)
 //     })
 
+function escutaMensagensEmTempoReal(adicionaMensagem) {
+    return supaBaseClient
+        .from('mensagens')
+        .on('INSERT', (respostaLive) => {
+            adicionaMensagem(respostaLive.new)
+        })
+        .subscribe()
+}
+
 export default function ChatPage() {
-    // Sua lógica vai aqui
+    const roteamento = useRouter()
+    const usuarioLogado = roteamento.query.username
     const [mensagem, setMensagem] = React.useState('')
     const [listaDeMensagens, setListaDeMensagens] = React.useState([])
 
@@ -39,12 +51,22 @@ export default function ChatPage() {
             .then(({data}) => {
                 setListaDeMensagens(data)
             })
+
+            escutaMensagensEmTempoReal((novaMensagem) => {
+                console.log('Nova mensagem', novaMensagem)
+                setListaDeMensagens((valorAtualDaLista) => {
+                    return [
+                        novaMensagem,
+                        ...valorAtualDaLista,
+                    ]
+                })
+            })
     }, [])
 
     function handleNovaMensagem(novaMensagem) {
         const mensagem = { // a mensagem é um objeto
             // id: listaDeMensagens.length + 1,
-            de: 'erikpatrik',
+            de: usuarioLogado,
             texto: novaMensagem,
         }
 
@@ -54,11 +76,11 @@ export default function ChatPage() {
                 mensagem
             ])
             .then(({data}) => {
-                console.log('Criando msg', res)
-                setListaDeMensagens([
-                    data[0],
-                    ...listaDeMensagens,
-                ])
+                console.log('Criando mensagem: ', data)
+                // setListaDeMensagens([
+                //     data[0],
+                //     ...listaDeMensagens,
+                // ])
             })
 
         setMensagem('')
@@ -139,6 +161,12 @@ export default function ChatPage() {
                                 color: appConfig.theme.colors.neutrals[200],
                             }}
                         />
+                        { /* Callback? chamada de retorno, quando alguma coisa queria terminou, executa a função que foi chamada */ }
+                        <ButtonSendSticker
+                            onStickerClick={(sticker) => {
+                                // console.log('USANDO O COMPONENTE: Salva este ticker no banco', sticker)
+                                handleNovaMensagem(':sticker: ' + sticker)
+                            }}    />
                     </Box>
                 </Box>
             </Box>
@@ -170,7 +198,7 @@ function Header() {
 }
 
 function MessageList(props) {
-    console.log(props.listaDeMensagens);
+    // console.log(props.listaDeMensagens);
     return (
         <Box
             tag="ul"
@@ -227,7 +255,14 @@ function MessageList(props) {
                             {(new Date().toLocaleDateString())}
                         </Text>
                     </Box>
-                     {mensagem.texto}
+                    { /* Declarações */}
+                    { /* mensagem.texto.startsWith(':sticker').toString() */}
+                    {mensagem.texto.startsWith(':sticker') ? (
+                        <Image src={mensagem.texto.replace(':sticker:', '')} />
+                    )
+                    : (
+                        mensagem.texto
+                    )}
                 </Text>
                 )
             })}

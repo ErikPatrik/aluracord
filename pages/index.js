@@ -39,7 +39,6 @@ export default function PaginaInicial() {
   // o segundo é uma função que muda o valor inicial
   const roteamento = useRouter()
 
-
   return (
     <>
       <Box
@@ -70,7 +69,7 @@ export default function PaginaInicial() {
             as="form"
             onSubmit={function (event) {
                 event.preventDefault();
-                roteamento.push('/chat')
+                roteamento.push(`/chat?username=${username}`)
             }}
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -91,7 +90,7 @@ export default function PaginaInicial() {
                     //	Trocar o valor da variável
                     // através do React e avise quem precise
                     setUsername(valor)
-                    }	
+                    }
                 }/>
             {/* <TextField
             fullWidth
