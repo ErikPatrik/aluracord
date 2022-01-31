@@ -10,7 +10,7 @@ function GlobalStyle() {
         body {
           font-family: 'Open Sans', sans-serif;
         }
-        /* App fit Height */ 
+        /* App fit Height */
         html, body, #__next {
           min-height: 100vh;
           display: flex;
@@ -22,7 +22,7 @@ function GlobalStyle() {
         #__next > * {
           flex: 1;
         }
-        /* ./App fit Height */ 
+        /* ./App fit Height */
       `}</style>
     );
 }
@@ -31,9 +31,9 @@ function GlobalStyle() {
 // o que colocamos aqui, roda em todas as páginas
 // ou seja, aqui todos tem acesso
 export default function MyApp({ Component, pageProps }) {
-    console.log('Roda em todas as páginas!')
+    //console.log('Roda em todas as páginas!')
     return (
-        <>  
+        <>
             <GlobalStyle/>
             <Component {...pageProps} />
         </>

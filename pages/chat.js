@@ -53,7 +53,7 @@ export default function ChatPage() {
             })
 
             escutaMensagensEmTempoReal((novaMensagem) => {
-                console.log('Nova mensagem', novaMensagem)
+                //console.log('Nova mensagem', novaMensagem)
                 setListaDeMensagens((valorAtualDaLista) => {
                     return [
                         novaMensagem,
@@ -75,8 +75,8 @@ export default function ChatPage() {
             .insert([
                 mensagem
             ])
-            .then(({data}) => {
-                console.log('Criando mensagem: ', data)
+            .then(({}) => {
+                //console.log('Criando mensagem: ', data)
                 // setListaDeMensagens([
                 //     data[0],
                 //     ...listaDeMensagens,
@@ -187,9 +187,9 @@ function Header() {
                     href="/"
                     buttonColors={{
                         contrastColor: appConfig.theme.colors.neutrals["000"],
-                        mainColor: appConfig.theme.colors.primary[1000],
-                        mainColorLight: appConfig.theme.colors.primary[2000],
-                        mainColorStrong: appConfig.theme.colors.primary[2000],
+                        mainColor: appConfig.theme.colors.primary["1000"],
+                        mainColorLight: appConfig.theme.colors.primary["2000"],
+                        mainColorStrong: appConfig.theme.colors.primary["2000"],
                     }}
                 />
             </Box>
@@ -258,7 +258,7 @@ function MessageList(props) {
                     { /* Declarações */}
                     { /* mensagem.texto.startsWith(':sticker').toString() */}
                     {mensagem.texto.startsWith(':sticker') ? (
-                        <Image src={mensagem.texto.replace(':sticker:', '')} />
+                        <Image styleSheet={{maxWidth: '150px'}} src={mensagem.texto.replace(':sticker:', '')} />
                     )
                     : (
                         mensagem.texto

@@ -23,10 +23,10 @@ export function ButtonSendSticker(props) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: appConfig.theme.colors.neutrals[300],
-          filter: isOpen ? 'grayscale(0)' : 'grayscale(1)',
+          backgroundColor: appConfig.theme.colors.primary["1000"],
+          filter: isOpen ? appConfig.theme.colors.primary["200"]: appConfig.theme.colors.primary["1000"],
           hover: {
-            filter: 'grayscale(0)',
+            filter: appConfig.theme.colors.primary["300"],
           }
         }}
         label="🦾"
@@ -85,10 +85,10 @@ export function ButtonSendSticker(props) {
                   borderRadius: '5px',
                   padding: '10px',
                   focus: {
-                    backgroundColor: appConfig.theme.colors.neutrals[600],
+                    backgroundColor: appConfig.theme.colors.neutrals["1000"],
                   },
                   hover: {
-                    backgroundColor: appConfig.theme.colors.neutrals[600],
+                    backgroundColor: appConfig.theme.colors.neutrals["600"],
                   }
                 }}
               >

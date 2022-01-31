@@ -34,7 +34,7 @@ function Titulo(props) {
 
 export default function PaginaInicial() {
   //let username = 'ErikPatrik';
-  const [username, setUsername] = React.useState('') // função que permite definir o novo valor
+  const [username, setUsername] = React.useState('erikpatrik') // função que permite definir o novo valor
   // o primeiro é o valor inicial
   // o segundo é uma função que muda o valor inicial
   const roteamento = useRouter()
@@ -69,7 +69,11 @@ export default function PaginaInicial() {
             as="form"
             onSubmit={function (event) {
                 event.preventDefault();
-                roteamento.push(`/chat?username=${username}`)
+                if (username === '') {
+                    alert('The username is necessary!')
+                } else {
+                    roteamento.push(`/chat?username=${username}`)
+                }
             }}
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -87,9 +91,7 @@ export default function PaginaInicial() {
                 onChange={function (event) {
                     // Onde ta o valor?
                     const valor = event.target.value
-                    //	Trocar o valor da variável
-                    // através do React e avise quem precise
-                    setUsername(valor)
+                        setUsername(valor)
                     }
                 }/>
             {/* <TextField
@@ -105,7 +107,7 @@ export default function PaginaInicial() {
             /> */ }
             <Button
               type='submit'
-              label='Entrar'
+              label='Login'
               fullWidth
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
